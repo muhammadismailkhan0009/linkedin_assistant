@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "src",
+        "target": "es2020",
+        // Required
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "esModuleInterop": true,
+        "baseUrl": "src",
+        "paths": {
+            "@actions/*":["actions/*"],
+        },
+        "types": [
+            "chrome"
+        ],
+        "lib": [
+            "dom",
+            "es2020"
+        ],
+        "strict": true
+    },
+    "include": [
+        "src"
+    ]
+}

@@ -1,0 +1,8 @@
+https://github.com/muhammadismailkhan0009/linkedin-posts-extractor
+this repo is goldmine because it tells us way to build urls from posts themselves:
+use "data-urn" value of each post in this url format:
+https://www.linkedin.com/feed/update/${data-urn-value}
+
+- the only downsize is that this method is not to be used for mass scrapping cuz
+otherwise it may result in account blocks. so, use it sparangly and with delays.
+ideal usecase is to extract profile posts and stay up-to-date.

@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "LinkedIn Assistant",
+    "version": "0.1",
+    "description": "Assists in managing linkedin for better visibility.",
+    "permissions": [
+        "clipboardRead",
+        "scripting",
+        "tabs",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://www.linkedin.com/*"
+    ],
+    "action": {
+        "default_popup": "public/popup.html",
+        "default_title": "LinkedIn Post Scrapper"
+    },
+    "background": {
+        "service_worker": "src/background.ts"
+    }
+}
