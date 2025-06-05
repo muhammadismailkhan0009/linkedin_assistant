@@ -1,3 +1,6 @@
+import { DataExchangeService } from "services/DataExchangeService";
+
+let generatedComment = "";
 export async function scrapePost() {
     console.log("⏳ [Scraper] Waiting for DOM to load...");
 
@@ -13,7 +16,8 @@ export async function scrapePost() {
     const postText = await waitForPostText(postSelector);
 
     if (postText) {
-        let comment = await sendPostToBackend(postText, "");
+        let dataExchangeService = new DataExchangeService();
+        let comment = await dataExchangeService.sendPostToBackend(postText, "");
         console.log("output data:" + comment.payload);
         generatedComment = comment.payload;
         await chrome.storage.local.set({ generatedComment: comment.payload });
@@ -21,4 +25,27 @@ export async function scrapePost() {
     } else {
         console.error("❌ [Scraper] Failed to find or extract post text.");
     }
+}
+
+function waitForPostText(selector: string, timeout = 10000): Promise<string | null> {
+    return new Promise((resolve) => {
+        const startTime = Date.now();
+
+        const interval = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            const element = document.querySelector(selector) as HTMLElement;
+
+            if (element) {
+                console.log("✅ [Scraper] Found post text element.");
+                clearInterval(interval);
+                resolve(element.innerText.trim());
+            }
+
+            if (elapsed >= timeout) {
+                console.warn("⚠️ [Scraper] Timeout: Post text not found.");
+                clearInterval(interval);
+                resolve(null);
+            }
+        }, 500);
+    });
 }
