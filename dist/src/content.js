@@ -667,64 +667,24 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"gMD1R":[function(require,module,exports,__globalThis) {
-var _runScraper = require("@actions/runScraper");
+var _runScraper = require("@actions/scraper/runScraper");
 console.log("\u2705 [LinkedIn Scraper] Content script injected.");
 (0, _runScraper.runScraper)();
 
-},{"@actions/runScraper":"gxWUs"}],"gxWUs":[function(require,module,exports,__globalThis) {
+},{"@actions/scraper/runScraper":"6mwii"}],"6mwii":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "runScraper", ()=>runScraper);
-var _scrapePost = require("./scrapePost");
-function runScraper() {
-    (0, _scrapePost.scrapePost)();
-}
-
-},{"./scrapePost":"5R7b1","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5R7b1":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "scrapePost", ()=>scrapePost);
 var _dataExchangeService = require("services/DataExchangeService");
-let generatedComment = "";
-async function scrapePost() {
-    console.log("\u23F3 [Scraper] Waiting for DOM to load...");
-    if (document.readyState === "loading") {
-        await new Promise((resolve)=>document.addEventListener("DOMContentLoaded", resolve));
-        console.log("\u2705 [Scraper] DOM fully loaded.");
-    } else console.log("\u2705 [Scraper] DOM was already ready.");
-    const postSelector = '.update-components-update-v2__commentary span[dir="ltr"]';
-    const postText = await waitForPostText(postSelector);
-    if (postText) {
-        let dataExchangeService = new (0, _dataExchangeService.DataExchangeService)();
-        let comment = await dataExchangeService.sendPostToBackend(postText, "");
-        console.log("output data:" + comment.payload);
-        generatedComment = comment.payload;
-        await chrome.storage.local.set({
-            generatedComment: comment.payload
-        });
-    } else console.error("\u274C [Scraper] Failed to find or extract post text.");
-}
-function waitForPostText(selector, timeout = 10000) {
-    return new Promise((resolve)=>{
-        const startTime = Date.now();
-        const interval = setInterval(()=>{
-            const elapsed = Date.now() - startTime;
-            const element = document.querySelector(selector);
-            if (element) {
-                console.log("\u2705 [Scraper] Found post text element.");
-                clearInterval(interval);
-                resolve(element.innerText.trim());
-            }
-            if (elapsed >= timeout) {
-                console.warn("\u26A0\uFE0F [Scraper] Timeout: Post text not found.");
-                clearInterval(interval);
-                resolve(null);
-            }
-        }, 500);
-    });
+var _scrapePost = require("./scrapePost");
+var _storeGeneratedComment = require("./storeGeneratedComment");
+async function runScraper() {
+    let scrapedPost = await (0, _scrapePost.scrapePost)();
+    let generatedComment = await new (0, _dataExchangeService.DataExchangeService)().sendPostToBackend(scrapedPost, "");
+    (0, _storeGeneratedComment.storeGeneratedComment)(generatedComment);
 }
 
-},{"services/DataExchangeService":"lymKP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lymKP":[function(require,module,exports,__globalThis) {
+},{"services/DataExchangeService":"lymKP","./scrapePost":"bqkd0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./storeGeneratedComment":"aTc9Z"}],"lymKP":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "DataExchangeService", ()=>DataExchangeService);
@@ -782,6 +742,60 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["bPZa3","gMD1R"], "gMD1R", "parcelRequire94c2", {})
+},{}],"bqkd0":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "scrapePost", ()=>scrapePost);
+let generatedComment = "";
+async function scrapePost() {
+    console.log("\u23F3 [Scraper] Waiting for DOM to load...");
+    if (document.readyState === "loading") {
+        await new Promise((resolve)=>document.addEventListener("DOMContentLoaded", resolve));
+        console.log("\u2705 [Scraper] DOM fully loaded.");
+    } else console.log("\u2705 [Scraper] DOM was already ready.");
+    const postSelector = '.update-components-update-v2__commentary span[dir="ltr"]';
+    const postText = await waitForPostText(postSelector);
+    if (postText) // let dataExchangeService = new DataExchangeService();
+    // let comment = await dataExchangeService.sendPostToBackend(postText, "");
+    // console.log("output data:" + comment.payload);
+    // generatedComment = comment.payload;
+    // await chrome.storage.local.set({ generatedComment: comment.payload });
+    return postText;
+    else {
+        console.error("\u274C [Scraper] Failed to find or extract post text.");
+        throw new Error("post could not be extracted");
+    }
+}
+function waitForPostText(selector, timeout = 10000) {
+    return new Promise((resolve)=>{
+        const startTime = Date.now();
+        const interval = setInterval(()=>{
+            const elapsed = Date.now() - startTime;
+            const element = document.querySelector(selector);
+            if (element) {
+                console.log("\u2705 [Scraper] Found post text element.");
+                clearInterval(interval);
+                resolve(element.innerText.trim());
+            }
+            if (elapsed >= timeout) {
+                console.warn("\u26A0\uFE0F [Scraper] Timeout: Post text not found.");
+                clearInterval(interval);
+                resolve(null);
+            }
+        }, 500);
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aTc9Z":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "storeGeneratedComment", ()=>storeGeneratedComment);
+async function storeGeneratedComment(comment) {
+    await chrome.storage.local.set({
+        generatedComment: comment
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["bPZa3","gMD1R"], "gMD1R", "parcelRequire94c2", {})
 
 //# sourceMappingURL=content.js.map

@@ -1,10 +1,9 @@
-import { checkClipboardOnClick } from "@actions/checkClipboardOnClick";
-import { displayGeneratedComment } from "@actions/displayGeneratedComment";
+import { checkClipboardOnClick } from "@actions/popup/checkClipboardOnClick";
+import { displayGeneratedComment } from "@actions/popup/displayGeneratedComment";
 
 
 // FIXME: is this run-time event?
 chrome.storage.local.get("generatedComment", (data) => {
-    console.log("ran this logic");
     if (data.generatedComment) {
         displayGeneratedComment(data.generatedComment);
     }
