@@ -1,5 +1,5 @@
-import { scrapePost } from "@actions/scrapePost";
+import { runScraper } from "@actions/runScraper";
 
 console.log("✅ [LinkedIn Scraper] Content script injected.");
 
-scrapePost();
+runScraper();
