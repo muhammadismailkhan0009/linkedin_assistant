@@ -1,0 +1,12 @@
+intent:
+user wants to generate comments for target post
+
+flow 1:(use this one for now as it resolves some technical stuff)
+user copies post url -> user clicks "process clipboard" button -> 
+new tab opens -> wait 10s ->5 comments are returned in extension ->
+user clicks "copy" button against desired comment -> user pastes the comment.
+
+flow 2:
+user copies post url ->
+ new tab opens automatically -> wait 10s -> 5 comments are returned ->
+ user copies desired comment -> user posts the comment
