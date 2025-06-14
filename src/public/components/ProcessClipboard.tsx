@@ -1,10 +1,22 @@
+import React from "react";
+
+export function ProcessClipboard() {
+
+
+    return (
+
+        <button onClick={checkClipboardOnClick} id="process-clipboard">Process Clipboard</button>
+
+    )
+}
+
 let lastClipboard = "";
 
-function isLinkedInPostUrl(url: string): boolean {
+function isLinkedInPostUrl(url: string) {
     return /^https:\/\/www\.linkedin\.com\/posts\//.test(url.trim());
 }
 
-export async function checkClipboardOnClick() {
+async function checkClipboardOnClick() {
     console.log("clickboard checking")
     try {
         const text = await navigator.clipboard.readText();

@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                     chrome.scripting.executeScript({
                         target: { tabId },
-                        files: ["src/cnontent.js"]
+                        files: ["src/content.js"]
                     });
                 }
             });

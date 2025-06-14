@@ -4,6 +4,8 @@
         "build": "parcel build manifest.json src/content.js --config @parcel/config-webextension"
     },
     "dependencies": {
-        "@parcel/config-webextension": "^2.15.2"
+        "@parcel/config-webextension": "^2.15.2",
+        "@types/react": "^19.1.7",
+        "@types/react-dom": "^19.1.6"
     }
 }

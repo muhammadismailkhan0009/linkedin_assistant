@@ -24,21 +24,14 @@
   </head>
 
   <body>
-    <h4>Post Scrapper</h4>
-    <p>Clipboard is being monitored for LinkedIn post URLs.</p>
-    <button id="process-clipboard">Process Clipboard</button>
 
-    <textarea
-      id="comment-box"
-      readonly
-      placeholder="Generated comment will appear here..."
-    ></textarea>
-    <button
-      id="copy-btn"
-      disabled
-    >Copy Comment</button>
 
-    <script type="module" src="/src/popup.ts"></script>
+    <div id="app"></div>
+
+    <script
+      type="module"
+      src="/src/public/popup.js"
+    ></script>
   </body>
 
 </html>
