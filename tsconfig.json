@@ -4,13 +4,12 @@
         "outDir": "dist",
         "rootDir": "src",
         "target": "es2020",
-        // Required
         "module": "esnext",
         "moduleResolution": "bundler",
         "esModuleInterop": true,
         "baseUrl": "src",
         "paths": {
-            "@actions/*":["actions/*"],
+            "@actions/*":["actions/*"]
         },
         "types": [
             "chrome"
