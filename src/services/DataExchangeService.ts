@@ -1,16 +1,43 @@
 export class DataExchangeService {
+    async getAuthToken(): Promise<string | null> {
+        return new Promise((resolve) => {
+            chrome.storage.local.get(["token"], (result) => {
+                resolve(result.token ?? null);
+            });
+        });
+    }
 
+    async getInstallId(): Promise<string | null> {
+        return new Promise((resolve) => {
+            chrome.storage.local.get(["installId"], (result) => {
+                resolve(result.installId ?? null);
+            });
+        });
+    }
 
     async sendPostToBackend(scrappedPost: string, url: string) {
         try {
-            const response = await fetch("http://localhost:8111/linkedin/create-comment", {
+            const token = await this.getAuthToken();
+            const installId = await this.getInstallId();
+
+            if (!token || !installId) {
+                throw new Error("Missing auth token or install ID");
+            }
+
+            const response = await fetch("https://api.wanderlytics.me/linkedin/api/v1/create-comment", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    scrappedPost,
-                    url
+                    payload: {
+                        scrappedPost,
+                        url
+                    },
+                    additionalMetadata: {
+                        installId
+                    }
                 })
             });
 
@@ -19,7 +46,6 @@ export class DataExchangeService {
             }
 
             const data = await response.json();
-
             console.log("✅ Comment received from backend:", data);
             return data;
         } catch (error) {
@@ -27,8 +53,4 @@ export class DataExchangeService {
             return null;
         }
     }
-
-
-
-
 }
