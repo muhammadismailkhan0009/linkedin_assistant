@@ -1,9 +1,33 @@
 ## How to use it:
 
-1. In the Chrome Extensions Manager tab, enable **"Developer mode"** at the top right corner.  
-2. Download the **ZIP file** of the code from the GitHub repo by clicking on the **"Code"** blue button on the repository page.  
-3. Unzip the code.  
-4. In the Chrome Extensions Manager tab, click on **"Load unpacked"** on the top left corner. It will open file selection mode.  
-5. Select the **"dist"** folder in the unzipped code directory, and load it.
+### 🔧 Installation
 
-Your extension is now installed in Chrome.
+1. Open the **Chrome Extensions Manager** by navigating to `chrome://extensions/`.
+2. Enable **"Developer mode"** using the toggle at the top right corner of the page.
+3. Download the code as a **ZIP file** from the GitHub repository by clicking the green **"Code"** button and selecting **"Download ZIP"**.
+4. Unzip the downloaded file to a folder on your computer.
+5. In the Chrome Extensions Manager, click on **"Load unpacked"** (top left corner).
+6. In the file picker dialog, navigate into the unzipped folder and select the **`dist/`** directory. Click **Open**.
+
+Your extension should now appear in the list of installed extensions and be ready to use.
+
+---
+
+### 🧪 How to generate a comment on a LinkedIn post
+
+1. Go to the LinkedIn post you want to comment on.
+2. Click the **three dots (⋯)** in the **top right corner of the post** (not the screen).
+3. From the dropdown menu, click **“Copy link to post”**. This copies the post's URL to your clipboard.
+4. Open the extension popup (by clicking its icon in the Chrome toolbar).
+5. Click the **“Process Clipboard”** button.
+6. A new tab will automatically open with the LinkedIn post.
+7. Wait approximately **10 seconds** to allow the post content to load and be processed.
+8. Now, open the extension popup again—**but this time inside the new tab** that just opened.
+9. You should now see a **generated comment** based on the LinkedIn post.
+
+---
+
+### ✅ Notes
+
+- Make sure you’re logged into LinkedIn before using the extension.
+- The comment may take a few seconds to appear depending on network speed.
