@@ -16,11 +16,6 @@ export async function scrapePost() {
     const postText = await waitForPostText(postSelector);
 
     if (postText) {
-        // let dataExchangeService = new DataExchangeService();
-        // let comment = await dataExchangeService.sendPostToBackend(postText, "");
-        // console.log("output data:" + comment.payload);
-        // generatedComment = comment.payload;
-        // await chrome.storage.local.set({ generatedComment: comment.payload });
         return postText;
 
     } else {

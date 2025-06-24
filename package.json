@@ -1,7 +1,7 @@
 {
     "scripts": {
-        "start": "rm -rf dist/* && parcel watch manifest.json src/background/content.js --host localhost --config @parcel/config-webextension",
-        "build": "rm -rf dist/* && parcel build manifest.json src/background/content.js --config @parcel/config-webextension"
+        "start": "rm -rf dist/* && rm -rf .parcel-cache/* && parcel watch manifest.json src/background/content.js --host localhost --config @parcel/config-webextension",
+        "build": "rm -rf dist/* && rm -rf .parcel-cache/* && parcel build manifest.json src/background/content.js --config @parcel/config-webextension"
     },
     "dependencies": {
         "@parcel/config-webextension": "^2.15.2",

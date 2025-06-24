@@ -1,15 +1,17 @@
 import { displayGeneratedComment } from "@actions/popup/displayGeneratedComment";
-import React from "react";
+import { getGeneratedComment } from "@actions/popup/getGeneratedComment";
+import React, { useEffect } from "react";
 export function DisplayComment() {
 
-    // FIXME: is this run-time event?
-    chrome.storage.local.get("generatedComment", (data) => {
-        console.log(data);
+    useEffect(() => {
+        getGeneratedComment().then((comment) => {
+            if (comment) {
+                console.log(comment);
+                displayGeneratedComment(comment);
+            }
+        });
+    }, []);
 
-        if (data.generatedComment) {
-            displayGeneratedComment(data.generatedComment.payload);
-        }
-    });
     return (
         <>
             <textarea

@@ -29,3 +29,15 @@ chrome.runtime.onInstalled.addListener(async () => {
         console.log("Token generated and saved:", token);
     });
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("tab message is here 2");
+    if (message.type === "GET_TAB_URL_WHEN_FETCHING") {
+        console.log("message received 2");
+        chrome.tabs.query({ active: true }, (tabs) => {
+            sendResponse({ url: tabs[0]?.url ?? null });
+        });
+        return true; // <-- Important: keeps message channel open
+    }
+});
+

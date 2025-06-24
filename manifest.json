@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "LinkedIn Assistant",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "description": "Assists in managing linkedin for better visibility.",
     "permissions": [
         "clipboardRead",
@@ -18,6 +18,6 @@
     },
     "background": {
         "service_worker": "src/background/background.ts",
-        "type":"module"
+        "type": "module"
     }
 }
