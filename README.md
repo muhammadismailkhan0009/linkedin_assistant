@@ -20,7 +20,7 @@ Your extension should now appear in the list of installed extensions and be read
 3. From the dropdown menu, click **“Copy link to post”**. This copies the post's URL to your clipboard.
 4. Open the extension popup (by clicking its icon in the Chrome toolbar).
 5. Click the **“Process Clipboard”** button.
-6. A new tab will automatically open with the LinkedIn post.
+6. A new tab will automatically open with the LinkedIn post. (You can open as many tabs as you like following process 1-5.)
 7. Wait approximately **10 seconds** to allow the post content to load and be processed.
 8. Now, open the extension popup again—**but this time inside the new tab** that just opened.
 9. You should now see a **generated comment** based on the LinkedIn post.
