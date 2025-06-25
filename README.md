@@ -11,6 +11,7 @@
 
 Your extension should now appear in the list of installed extensions and be ready to use.
 
+
 ---
 
 ### 🧪 How to generate a comment on a LinkedIn post
@@ -31,3 +32,17 @@ Your extension should now appear in the list of installed extensions and be read
 
 - Make sure you’re logged into LinkedIn before using the extension.
 - The comment may take a few seconds to appear depending on network speed.
+
+
+### 🔄 Upgrading the extension
+
+To upgrade the extension to the latest version:
+
+1. Open a terminal in the extension’s root directory and pull the latest code:
+
+   ```bash
+   git pull origin main
+
+2. In Chrome, go to the Extensions Manager (chrome://extensions/).
+3. Find your extension and click the "Details" button.
+4. Click the "Update" button at the top of the page.
