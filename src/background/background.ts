@@ -30,6 +30,8 @@ chrome.runtime.onInstalled.addListener(async () => {
     });
 });
 
+// get tab url on popup-open
+// FIXME: use window.href property instead of message to avoid issues.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("tab message is here 2");
     if (message.type === "GET_TAB_URL_WHEN_FETCHING") {
@@ -40,4 +42,34 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true; // <-- Important: keeps message channel open
     }
 });
+
+// change banner indicator
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "SET_BADGE" && sender.tab?.id !== undefined) {
+        const tabId = sender.tab.id;
+
+        let badgeText = "";
+        let badgeColor = "#000000";
+
+        console.log("logic ran for badge");
+
+        if (message.status === "loading") {
+            badgeText = "...";
+            badgeColor = "#FFA500"; // orange
+        } else if (message.status === "ready") {
+            badgeText = "✓";
+            badgeColor = "#00C851"; // green
+        } else if (message.status === "clear") {
+            badgeText = "";
+        }
+
+        console.log("badge_text:" + badgeText);
+
+        chrome.action.setBadgeText({ text: badgeText,tabId });
+        if (badgeText) {
+            chrome.action.setBadgeBackgroundColor({ color: badgeColor,tabId });
+        }
+    }
+});
+
 
