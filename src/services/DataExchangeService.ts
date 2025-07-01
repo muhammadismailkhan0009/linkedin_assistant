@@ -27,7 +27,7 @@ export class DataExchangeService {
             }
             let authInfo = await this.getAuthTokenAndInstallerId();
 
-            const response = await fetch("http://localhost:8111/linkedin/api/v1/create-post", {
+            const response = await fetch("https://api.wanderlytics.me/linkedin/api/v1/create-post", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
