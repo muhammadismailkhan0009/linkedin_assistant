@@ -5,7 +5,7 @@ export function ProcessClipboard() {
 
     return (
 
-        <button onClick={checkClipboardOnClick} id="process-clipboard">Process Clipboard</button>
+        <button onClick={checkClipboardOnClick} id="process-clipboard">Generate Comment</button>
 
     )
 }
