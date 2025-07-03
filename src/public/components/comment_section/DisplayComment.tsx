@@ -1,5 +1,7 @@
 import { getGeneratedComment } from "@actions/popup/getGeneratedComment";
 import React, { useEffect, useState } from "react";
+import { traceWhetherCopied } from "tracing/traceWhetherCopied";
+import { ContentType } from "tracing/types/TraceMetrics";
 export function DisplayComment() {
     const [comment, setComment] = useState<string>("");
     const [copied, setCopied] = useState<boolean>(false);
@@ -16,6 +18,7 @@ export function DisplayComment() {
     async function handleCopy() {
         try {
             await navigator.clipboard.writeText(comment);
+            traceWhetherCopied("inputContent", comment, ContentType.COMMENT);
             setCopied(true);
             setTimeout(() => setComment(""), 1500);
             setTimeout(() => setCopied(false), 1500);

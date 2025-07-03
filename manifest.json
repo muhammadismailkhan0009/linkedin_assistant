@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "LinkedIn Assistant",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "Assists in managing linkedin for better visibility.",
     "permissions": [
         "clipboardRead",

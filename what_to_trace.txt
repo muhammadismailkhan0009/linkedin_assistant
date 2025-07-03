@@ -1,0 +1,6 @@
+--------------- easy to code ------------------------------
+1- whether user copied the post/comment or not(add tracing matrix on copy button)
+--------------- hard to code --------------------
+2- whether user edited the post/comment or not(add tracing on post/comment button)
+3- whether user discarded/drafted the post/comment or not(add tracing on discard/draft)
+4- whether user took no action at all(add tracing if no action is done)

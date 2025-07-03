@@ -2,6 +2,8 @@ import { ContentActions } from "public/types/ContentActions";
 import React, { useState } from "react";
 import { DataExchangeService } from "services/DataExchangeService";
 import { Action } from "public/types/Action";
+import { traceWhetherGenerated } from "tracing/traceWhetherGenerated";
+import { ContentType } from "tracing/types/TraceMetrics";
 
 
 
@@ -22,6 +24,8 @@ export function GeneratePost({ setState, setGeneratedPost }: Readonly<ContentAct
         setState(Action.display_post);
 
         setLoading(false); // reset loading
+
+        traceWhetherGenerated(userInput, content.payload, ContentType.POST);
     };
 
     return (

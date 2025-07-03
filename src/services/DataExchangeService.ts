@@ -1,3 +1,4 @@
+import { TraceMetrics } from "tracing/types/TraceMetrics";
 import { AuthInfo } from "./types/AuthInfo";
 import { UserIdea } from "./types/UserIdea";
 
@@ -92,6 +93,38 @@ export class DataExchangeService {
                         scrappedPost,
                         url
                     },
+                    additionalMetadata: {
+                        installId: authInfo.installId
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Backend error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("✅ Comment received from backend:", data);
+            return data;
+        } catch (error) {
+            console.error("❌ Failed to send post to backend:", error);
+            return null;
+        }
+    }
+
+    async sendTracingData(tracingData: TraceMetrics) {
+        try {
+
+            let authInfo = await this.getAuthTokenAndInstallerId();
+
+            const response = await fetch("https://api.wanderlytics.me/linkedin/api/v1/tracing-data", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authInfo.token}`
+                },
+                body: JSON.stringify({
+                    payload: tracingData,
                     additionalMetadata: {
                         installId: authInfo.installId
                     }

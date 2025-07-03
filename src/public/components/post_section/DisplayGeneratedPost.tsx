@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { traceWhetherCopied } from "tracing/traceWhetherCopied";
+import { ContentType } from "tracing/types/TraceMetrics";
 
 export function DisplayGeneratedPost({ generatedPost }: Readonly<{ generatedPost: string }>) {
 
@@ -13,6 +15,8 @@ export function DisplayGeneratedPost({ generatedPost }: Readonly<{ generatedPost
         try {
             await navigator.clipboard.writeText(localPost);
             setCopied(true);
+
+            traceWhetherCopied("instructions", localPost, ContentType.POST);
 
             setTimeout(() => setCopied(false), 1500);
             setTimeout(() => setLocalPost(""), 1500);

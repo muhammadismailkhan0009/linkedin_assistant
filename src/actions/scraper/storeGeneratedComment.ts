@@ -1,4 +1,3 @@
-import { getCurrentTabUrlOnStoring } from "services/TabUtils";
 
 export async function storeGeneratedComment(comment: string, url: string | null) {
     if (!url) return;
