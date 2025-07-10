@@ -3,7 +3,7 @@ import { AuthInfo } from "./types/AuthInfo";
 import { UserIdea } from "./types/UserIdea";
 import { UserJourney } from "tracing/types/UserJourney";
 
-const baseUrl: string = "http:localhost:8111";
+const baseUrl: string = "https://api.wanderlytics.me";
 export class DataExchangeService {
     async getAuthToken(): Promise<string | null> {
         return new Promise((resolve) => {
