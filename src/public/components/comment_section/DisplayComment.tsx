@@ -1,7 +1,8 @@
-import { getGeneratedComment } from "@actions/popup/getGeneratedComment";
 import React, { useEffect, useState } from "react";
-import { traceWhetherCopied } from "tracing/traceWhetherCopied";
-import { ContentType } from "tracing/types/TraceMetrics";
+import { getGeneratedComment } from "./actions/getGeneratedComment";
+import { CommentCreationJourneySteps, StepInfo } from "tracing/UserJourneyStepUtils";
+import { getUserJourneyId } from "@actions/content/generateUserJourneyId";
+import { JourneyType } from "@actions/types/JourneyType";
 export function DisplayComment() {
     const [comment, setComment] = useState<string>("");
     const [copied, setCopied] = useState<boolean>(false);
@@ -16,12 +17,21 @@ export function DisplayComment() {
     }, []);
 
     async function handleCopy() {
+
         try {
+            const journeryId = await getUserJourneyId(JourneyType.COMMENT_CREATION);
+            // CCJ step 2: comment is copied
             await navigator.clipboard.writeText(comment);
-            traceWhetherCopied("inputContent", comment, ContentType.COMMENT);
+
+            const stepData: StepInfo = {
+                journeyId: journeryId,
+                inputContent: comment,
+                outputContent: comment,
+            }
+            CommentCreationJourneySteps.copied(stepData);
             setCopied(true);
             setTimeout(() => setComment(""), 1500);
-            setTimeout(() => setCopied(false), 1500);
+            // setTimeout(() => setCopied(false), 1500);
         } catch (err) {
             console.error("❌ Failed to copy:", err);
         }

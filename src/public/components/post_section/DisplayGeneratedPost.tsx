@@ -1,6 +1,7 @@
+import { getUserJourneyId } from "@actions/content/generateUserJourneyId";
+import { JourneyType } from "@actions/types/JourneyType";
 import React, { useEffect, useState } from "react";
-import { traceWhetherCopied } from "tracing/traceWhetherCopied";
-import { ContentType } from "tracing/types/TraceMetrics";
+import { PostCreationJourneySteps, StepInfo } from "tracing/UserJourneyStepUtils";
 
 export function DisplayGeneratedPost({ generatedPost }: Readonly<{ generatedPost: string }>) {
 
@@ -16,10 +17,18 @@ export function DisplayGeneratedPost({ generatedPost }: Readonly<{ generatedPost
             await navigator.clipboard.writeText(localPost);
             setCopied(true);
 
-            traceWhetherCopied("instructions", localPost, ContentType.POST);
-
-            setTimeout(() => setCopied(false), 1500);
             setTimeout(() => setLocalPost(""), 1500);
+
+            //step 2 send journey step info
+            const journeryId = await getUserJourneyId(JourneyType.POST_CREATION);
+            const stepData: StepInfo = {
+                journeyId: journeryId,
+                inputContent: localPost,
+                outputContent: localPost,
+            }
+            PostCreationJourneySteps.copied(stepData);
+
+
         } catch (err) {
             console.error("❌ Failed to copy:", err);
         }

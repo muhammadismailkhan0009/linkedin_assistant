@@ -20,15 +20,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 chrome.runtime.onInstalled.addListener(async () => {
-    const secret = "your-very-secret-key"; // hardcoded for now
-    const installId = crypto.randomUUID(); // unique per install
 
-    const token = await generateToken(secret, installId);
+    chrome.storage.local.get(["installId"], async (result) => {
+        if (result.installId) {
+            console.log("Install ID already exists:", result.installId);
+            return;
+        }
 
-    chrome.storage.local.set({ installId, token }, () => {
-        console.log("Token generated and saved:", token);
+        const secret = "your-very-secret-key"; // hardcoded for now
+        const installId = crypto.randomUUID(); // unique per install
+
+        const token = await generateToken(secret, installId);
+
+        chrome.storage.local.set({ installId, token }, () => {
+            console.log("Token generated and saved:", token);
+        });
     });
 });
+
 
 // get tab url on popup-open
 // FIXME: use window.href property instead of message to avoid issues.
@@ -65,9 +74,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         console.log("badge_text:" + badgeText);
 
-        chrome.action.setBadgeText({ text: badgeText,tabId });
+        chrome.action.setBadgeText({ text: badgeText, tabId });
         if (badgeText) {
-            chrome.action.setBadgeBackgroundColor({ color: badgeColor,tabId });
+            chrome.action.setBadgeBackgroundColor({ color: badgeColor, tabId });
         }
     }
 });

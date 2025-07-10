@@ -2,8 +2,10 @@ import { ContentActions } from "public/types/ContentActions";
 import React, { useState } from "react";
 import { DataExchangeService } from "services/DataExchangeService";
 import { Action } from "public/types/Action";
-import { traceWhetherGenerated } from "tracing/traceWhetherGenerated";
-import { ContentType } from "tracing/types/TraceMetrics";
+import { generateUserJourneyId, getUserJourneyId } from "@actions/content/generateUserJourneyId";
+import { JourneyType } from "@actions/types/JourneyType";
+import { PostCreationJourney } from "tracing/UserJourneyUtils";
+import { PostCreationJourneySteps, StepInfo } from "tracing/UserJourneyStepUtils";
 
 
 
@@ -13,6 +15,12 @@ export function GeneratePost({ setState, setGeneratedPost }: Readonly<ContentAct
 
 
     const handleGenerate = async () => {
+
+        // start post creation journey
+        generateUserJourneyId(JourneyType.POST_CREATION);
+        const journeyId = await getUserJourneyId(JourneyType.POST_CREATION);
+        PostCreationJourney.startJourney(journeyId);
+
         console.log("user input fed");
         if (!userInput.trim()) return;
 
@@ -25,7 +33,14 @@ export function GeneratePost({ setState, setGeneratedPost }: Readonly<ContentAct
 
         setLoading(false); // reset loading
 
-        traceWhetherGenerated(userInput, content.payload, ContentType.POST);
+        // step 1:
+        const stepInfo: StepInfo = {
+            journeyId: journeyId,
+            inputContent: userInput,
+            outputContent: content.payload,
+
+        }
+        PostCreationJourneySteps.generated(stepInfo);
     };
 
     return (

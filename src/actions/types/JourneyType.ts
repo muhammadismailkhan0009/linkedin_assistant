@@ -1,0 +1,4 @@
+export enum JourneyType {
+    COMMENT_CREATION = "COMMENT_CREATION",
+    POST_CREATION = "POST_CREATION",
+}
